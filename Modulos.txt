@@ -1,0 +1,30 @@
+Sistema de Administracion de Alquileres SISAL
+=============================================
+
+Modulo Seguridad:
+=================
+- Autenticación
+- LogOut
+
+Modulo Mantenimiento:
+=====================
+- Empresa
+- Local_Principal
+- Tipo_Usuario
+- Usuario
+- Cliente (Inquilino)
+- Local_Arrendar
+
+Operativos:
+===========
+- Contratos
+- Tipo_Ingreso
+- Registro_Ingreso
+- Tipo_Egreso
+- Registro_Egreso
+
+Reportes:
+=========
+- Contratos
+- Ingreso / Egreso
+- Otros
