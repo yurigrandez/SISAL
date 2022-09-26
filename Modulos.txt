@@ -5,6 +5,7 @@ Modulo Seguridad:
 =================
 - Autenticación
 - LogOut
+- Eventos
 
 Modulo Mantenimiento:
 =====================
@@ -14,9 +15,10 @@ Modulo Mantenimiento:
 - Usuario
 - Cliente (Inquilino)
 - Local_Arrendar
+- Estados
 
-Operativos:
-===========
+Negocio:
+========
 - Contratos
 - Tipo_Ingreso
 - Registro_Ingreso
@@ -25,7 +27,6 @@ Operativos:
 
 Reportes:
 =========
-- Arrendamiento (Cliente - Local)
 - Contratos
 - Ingreso / Egreso
 - Otros

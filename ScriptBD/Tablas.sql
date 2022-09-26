@@ -20,6 +20,7 @@ go
 /************************************/
 /*			Tablas Mantenimiento	*/
 /************************************/
+print '-------------------------------'
 print 'creando Tablas Mantenimiento...'
 print '-------------------------------'
 
@@ -32,10 +33,14 @@ create table tbEMPRESA
  ruc				varchar(11),
  telefono			varchar(25),
  movil				varchar(15),
+ nombreContacto		varchar(150),
+ correoContacto		varchar(50),
+ tlfContacto		varchar(15),
+ movilContacto		varchar(15),
  fechaCreacion		smalldatetime,
  fechaModificacion	smalldatetime,
  fechaDesactivacion	smalldatetime,
- imgEmpresa			varbinary(max)				
+ imgEmpresa			varbinary(max)
 )
 go
 
@@ -87,6 +92,7 @@ create table tabUSUARIO
  nombre				varchar(50),
  paterno			varchar(50),
  materno			varchar(50),
+ correo				varchar(50),
  clave				varchar(max),
  idTipoUsuario		int,
  IdtipoDocumento	int,
@@ -122,6 +128,7 @@ create table tabCLIENTE
  materno			varchar(50),
  IdTipoDocumento	int,
  numeroDocumento	varchar(25),
+ correo				varchar(50),
  direccion			varchar(250),
  telefono			varchar(25),
  IdTipoComprobante	int,
@@ -145,6 +152,69 @@ create table tabLOCAL_ARRENDAR
  fechaModificacion	smalldatetime,
  fechaDesactivacion	smalldatetime,
  constraint fk_LocalArrendar_LocalPrincipal foreign key(idLocalPrincipal) references tbLOCAL_PRINCIPAL(Id)
+)
+go
+
+print 'creando tabESTADO...'
+create table tabESTADO
+(Id					int identity(1,1) not null primary key,
+ codigo				char(6),
+ nombre				varchar(15),
+ descripcion		varchar(100)
+)
+go
+
+/************************************/
+/*			Tablas Negocio			*/
+/************************************/
+print '-------------------------'
+print 'creando Tablas Negocio...'
+print '-------------------------'
+
+print 'creando tabCONTRATO...'
+create table tabCONTRATO
+(Id					int identity(1,1) not null primary key,
+ codigo				varchar(6),
+ idCliente			int,
+ idUsuarioRegistra	int,
+ idUsuarioAutoriza	int,
+ idLocalArrendar	int,
+ fechaInicio		smalldatetime,
+ fechaFin			smalldatetime,
+ montoAlquiler		decimal(18,2),
+ montoLuz			decimal(18,2),
+ montoAgua			decimal(18,2),
+ montoMantenimiento	decimal(18,2),
+ montoOtros			decimal(18,2),
+ Observaciones		varchar(max),
+ contratoPDF		varbinary(max),
+ idEstado			int,
+ fechaCreacion		smalldatetime,
+ fechaModificacion	smalldatetime,
+ fechaDesactivacion	smalldatetime,
+ constraint fk_Contrato_Cliente foreign key(idCliente) references tabCLIENTE(Id),
+ constraint fk_Contrato_UsuRegistra foreign key(idUsuarioRegistra) references tabUSUARIO(Id),
+ constraint fk_Contrato_UsuAutoriza foreign key(idUsuarioAutoriza) references tabUSUARIO(Id),
+ constraint fk_Contrato_LocalArrendar foreign key(idLocalArrendar) references tabLOCAL_ARRENDAR(Id),
+ constraint fk_Contrato_Estado foreign key(idEstado) references tabESTADO(Id)
+)
+go
+
+/************************************/
+/*			Tablas Control			*/
+/************************************/
+print '-------------------------'
+print 'creando Tablas Control...'
+print '-------------------------'
+
+print 'creando tabEVENTOS...'
+create table tabEVENTOS
+(Id					int identity(1,1) not null primary key,
+ IdEntidad			int,
+ idUsuario			int,
+ fechaCreacion		smalldatetime,
+ mensaje			varchar(max)
+ constraint fk_Evento_Usuario foreign key(idUsuario) references tabUSUARIO(Id)
 )
 go
 
