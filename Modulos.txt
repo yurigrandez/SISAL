@@ -25,6 +25,7 @@ Operativos:
 
 Reportes:
 =========
+- Arrendamiento (Cliente - Local)
 - Contratos
 - Ingreso / Egreso
 - Otros
