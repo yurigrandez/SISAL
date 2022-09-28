@@ -24,8 +24,22 @@ print '-------------------------------'
 print 'creando Tablas Mantenimiento...'
 print '-------------------------------'
 
+print 'creando tabSECUENCIA...'
+create table tabSECUENCIA
+(Id					int identity(1,1) not null primary key,
+ tabla				varchar(50),
+ anio				char(4),
+ prefijo			char(3),
+ numero				int,
+ complemento		varchar(3),
+ fechaCreacion		smalldatetime,
+ fechaModificacion	smalldatetime,
+ fechaDesactivacion	smalldatetime,
+)
+go
+
 print 'creando tbEMPRESA...'
-create table tbEMPRESA
+create table tabEMPRESA
 (Id					int identity(1,1) not null primary key,
  codigo				char(6) not null,
  nombre				varchar(100),
@@ -45,7 +59,7 @@ create table tbEMPRESA
 go
 
 print 'creando tbLOCAL_PRINCIPAL...'
-create table tbLOCAL_PRINCIPAL
+create table tabLOCAL_PRINCIPAL
 (Id					int identity(1,1) not null primary key,
  codigo				char(6) not null,
  idEmpresa			int,
@@ -57,7 +71,7 @@ create table tbLOCAL_PRINCIPAL
  fechaCreacion		smalldatetime,
  fechaModificacion	smalldatetime,
  fechaDesactivacion	smalldatetime,
- constraint fk_LocalPrincipal_Empresa foreign key(idEmpresa) references tbEMPRESA(Id)
+ constraint fk_LocalPrincipal_Empresa foreign key(idEmpresa) references tabEMPRESA(Id)
 )
 go
 
@@ -151,7 +165,7 @@ create table tabLOCAL_ARRENDAR
  fechaCreacion		smalldatetime,
  fechaModificacion	smalldatetime,
  fechaDesactivacion	smalldatetime,
- constraint fk_LocalArrendar_LocalPrincipal foreign key(idLocalPrincipal) references tbLOCAL_PRINCIPAL(Id)
+ constraint fk_LocalArrendar_LocalPrincipal foreign key(idLocalPrincipal) references tabLOCAL_PRINCIPAL(Id)
 )
 go
 
@@ -200,6 +214,91 @@ create table tabCONTRATO
 )
 go
 
+print 'creando tabTIPO_MONEDA...'
+create table tabTIPO_MONEDA
+(Id					int identity(1,1) not null primary key,
+ codigo				char(3),
+ nombre				varchar(25),
+ descripcion		varchar(100),
+ fechaCreacion		smalldatetime,
+ fechaModificacion	smalldatetime,
+ fechaDesactivacion	smalldatetime
+)
+go
+
+print 'creando tabCOMPROBANTE...'
+create table tabCOMPROBANTE
+(Id					int identity(1,1) not null primary key,
+ idEmpresa			int,
+ idTipoComprobante	int,
+ nroComprobante		varchar(10),
+ idCliente			int,
+ idContrato			int,
+ idUsuarioRegistra	int,
+ fechaEmision		smalldatetime,
+ fechaVencimiento	smalldatetime,
+ idTipoMoneda		int,
+ observacion		varchar(max),
+ importeTotal		decimal(18,2),
+ fechaCreacion		smalldatetime,
+ fechaModificacion	smalldatetime,
+ fechaDesactivacion	smalldatetime
+ constraint fk_Comprobante_Empresa foreign key(idEmpresa) references tabEMPRESA(Id),
+ constraint fk_Comprobante_TipoComprobante foreign key(idTipoComprobante) references tabTIPO_COMPROBANTE(Id),
+ constraint fk_Comprobante_Cliente foreign key(idCliente) references tabCLIENTE(Id),
+ constraint fk_Comprobante_Contrato foreign key(idContrato) references tabCONTRATO(Id),
+ constraint fk_Comprobante_UsuRegistra foreign key(idUsuarioRegistra) references tabUSUARIO(Id),
+ constraint fk_Comprobante_TipoMoneda foreign key(idTipoMoneda) references tabTIPO_MONEDA(Id)
+)
+go
+
+print 'creando tabCOMPROBANTE_DETALLE...'
+create table tabCOMPROBANTE_DETALLE
+(Id					int identity(1,1) not null primary key,
+ idComprobante		int,
+ cantidad			int,
+ concepto			varchar(250),
+ precioUnitario		decimal(18,2),
+ subTotal			decimal(18,2),
+ constraint fk_ComDetalle_Comprobante foreign key(idComprobante) references tabCOMPROBANTE(Id)
+)
+go
+
+/************************************/
+/*			Tablas Incidentes		*/
+/************************************/
+print '----------------------------'
+print 'creando Tablas Incidentes...'
+print '----------------------------'
+
+print 'creando tabTIPO_INCIDENTES...'
+create table tabTIPO_INCIDENTE
+(Id					int identity(1,1) not null primary key,
+ codigo				char(3),
+ nombre				varchar(25),
+ descripcion		varchar(100),
+ fechaCreacion		smalldatetime,
+ fechaModificacion	smalldatetime,
+ fechaDesactivacion	smalldatetime 
+)
+go
+
+print 'creando tabINCIDENTES...'
+create table tabINCIDENTE
+(Id					int identity(1,1) not null primary key,
+ idUsuarioRegistra	int,
+ idCliente			int,
+ idTipoIncidente	int,
+ descripcion		varchar(max),
+ fechaCreacion		smalldatetime,
+ fechaModificacion	smalldatetime,
+ fechaDesactivacion	smalldatetime,
+ constraint fk_Incidente_UsuRegistra foreign key(idUsuarioRegistra) references tabUSUARIO(Id),
+ constraint fk_Incidente_Cliente foreign key(idCliente) references tabCLIENTE(Id),
+ constraint fk_Incidente_TipoIncidente foreign key(idTipoIncidente) references tabTIPO_INCIDENTE(Id)
+)
+go
+
 /************************************/
 /*			Tablas Control			*/
 /************************************/
@@ -211,7 +310,10 @@ print 'creando tabEVENTOS...'
 create table tabEVENTOS
 (Id					int identity(1,1) not null primary key,
  IdEntidad			int,
+ codigoIdentidad	varchar(6),
+ Entidad			char(6),
  idUsuario			int,
+ codigoUsuario		char(6),
  fechaCreacion		smalldatetime,
  mensaje			varchar(max)
  constraint fk_Evento_Usuario foreign key(idUsuario) references tabUSUARIO(Id)

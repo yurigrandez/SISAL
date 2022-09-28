@@ -9,6 +9,7 @@ Modulo Seguridad:
 
 Modulo Mantenimiento:
 =====================
+- Secuencia
 - Empresa
 - Local_Principal
 - Tipo_Usuario
@@ -24,6 +25,12 @@ Negocio:
 - Registro_Ingreso
 - Tipo_Egreso
 - Registro_Egreso
+- Tipo_Comprobante
+- Comprobante
+- Detalle_Comprobante
+- Tipo_Moneda
+- Tipo_Incidencia
+- Incidencias
 
 Reportes:
 =========
