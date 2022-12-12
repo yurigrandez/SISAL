@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace com.da.accesodatos.Interfaces
+namespace com.da.alquileres.accesodatos.Interfaces
 {
     public interface IEmpresaRepository : IBaseRepository<IEmpresaRepository>
     {
