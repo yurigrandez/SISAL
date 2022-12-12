@@ -5,9 +5,9 @@ VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "com.da.alquileres.api", "com.da.alquileres.api\com.da.alquileres.api.csproj", "{FA72AA4E-B74B-4E1E-A337-5E4C1615A7E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.da.alquileres.entidades", "com.da.alquileres.entidades\com.da.alquileres.entidades.csproj", "{AEDF0369-F897-47A7-8CF6-7EBFB2334AA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "com.da.alquileres.entidades", "com.da.alquileres.entidades\com.da.alquileres.entidades.csproj", "{AEDF0369-F897-47A7-8CF6-7EBFB2334AA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.da.accesodatos", "com.da.accesodatos\com.da.accesodatos.csproj", "{90C3DD48-3121-4402-8597-D07F76979C43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "com.da.alquileres.accesodatos", "com.da.accesodatos\com.da.alquileres.accesodatos.csproj", "{90C3DD48-3121-4402-8597-D07F76979C43}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

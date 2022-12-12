@@ -15,9 +15,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Sistema_Administracion_Alquileres\\com.da.alquileres\\com.da.accesodatos\\com.da.accesodatos.csproj",
-      "projectName": "com.da.accesodatos",
-      "projectPath": "C:\\Sistema_Administracion_Alquileres\\com.da.alquileres\\com.da.accesodatos\\com.da.accesodatos.csproj",
+      "projectUniqueName": "C:\\Sistema_Administracion_Alquileres\\com.da.alquileres\\com.da.accesodatos\\com.da.alquileres.accesodatos.csproj",
+      "projectName": "com.da.alquileres.accesodatos",
+      "projectPath": "C:\\Sistema_Administracion_Alquileres\\com.da.alquileres\\com.da.accesodatos\\com.da.alquileres.accesodatos.csproj",
       "packagesPath": "C:\\Users\\Montrel1\\.nuget\\packages\\",
       "outputPath": "C:\\Sistema_Administracion_Alquileres\\com.da.alquileres\\com.da.accesodatos\\obj\\",
       "projectStyle": "PackageReference",
