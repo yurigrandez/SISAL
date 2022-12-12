@@ -9,6 +9,15 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+//builder.Services.Configure<AppSettings>(builder.Configuration);
+
+//builder.Services.AddDbContext<ECommerceDbContext>(options =>
+//{
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("ECommerceDb"));
+
+//    options.EnableSensitiveDataLogging(false);
+//});
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
