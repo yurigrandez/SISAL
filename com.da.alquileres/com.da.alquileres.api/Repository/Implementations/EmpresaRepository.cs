@@ -1,4 +1,7 @@
 ﻿using com.da.alquileres.accesodatos.Interfaces;
+using com.da.alquileres.api;
+using com.da.alquileres.entidades;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,22 +12,29 @@ namespace com.da.alquileres.accesodatos.Implementations
 {
     public class EmpresaRepository : IEmpresaRepository
     {
-        public Task<IEmpresaRepository> actualizarEntidad(IEmpresaRepository entidad)
+        private readonly AlquileresDbContext context;
+
+        public EmpresaRepository( AlquileresDbContext context)
+        {
+            this.context = context;
+        }
+
+        public Task<tabEmpresa> actualizarEntidad(tabEmpresa entidad)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEmpresaRepository> agregarEntidad(IEmpresaRepository entidad)
+        public Task<tabEmpresa> agregarEntidad(tabEmpresa entidad)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEmpresaRepository> buscarXId(int id)
+        public Task<tabEmpresa> buscarXId(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEmpresaRepository> buscarXString(string str)
+        public Task<ICollection<tabEmpresa>> buscarXString(string str)
         {
             throw new NotImplementedException();
         }
@@ -39,9 +49,9 @@ namespace com.da.alquileres.accesodatos.Implementations
             throw new NotImplementedException();
         }
 
-        public Task<ICollection<IEmpresaRepository>> listarAsync()
+        public async Task<ICollection<tabEmpresa>> listarAsync()
         {
-            throw new NotImplementedException();
+            return await context.tabEmpresa.ToListAsync();
         }
     }
 }

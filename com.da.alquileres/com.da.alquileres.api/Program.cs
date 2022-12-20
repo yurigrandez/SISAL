@@ -1,3 +1,6 @@
+using com.da.alquileres.api;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -9,14 +12,12 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-//builder.Services.Configure<AppSettings>(builder.Configuration);
+//
+var connectionString = builder.Configuration.GetConnectionString("dbSISAL");
 
-//builder.Services.AddDbContext<ECommerceDbContext>(options =>
-//{
-//    options.UseSqlServer(builder.Configuration.GetConnectionString("ECommerceDb"));
-
-//    options.EnableSensitiveDataLogging(false);
-//});
+builder.Services.AddDbContext<AlquileresDbContext>(
+        options => options.UseSqlServer(connectionString)
+    );
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

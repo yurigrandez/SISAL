@@ -38,7 +38,7 @@ create table tabSECUENCIA
 )
 go
 
-print 'creando tbEMPRESA...'
+print 'creando tabEMPRESA...'
 create table tabEMPRESA
 (Id					int identity(1,1) not null primary key,
  codigo				char(6) not null,
@@ -320,4 +320,16 @@ create table tabEVENTOS
 )
 go
 
+/************************************/
+/*			Poblando tablas 		*/
+/************************************/
+print '----------------------------'
+print 'Poblando tablas...'
+print '----------------------------'
+
+print 'poblando tbEMPRESA...'
+insert into tabEMPRESA( codigo, nombre, direccion, ruc, telefono, movil, nombreContacto, correoContacto, tlfContacto, movilContacto )
+values ('EMP001', 'DA Soluciones e Inversiones', 'SMP', '20606416106', '555-5555', '986794436', 'Yuri Grandez Del Aguila', 'yuri.grandez@dasol-inv.com', '555-5555', '986794436')
+go
+		
 print 'Script ejecutado con exito...'
