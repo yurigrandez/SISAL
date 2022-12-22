@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "UIdQqeo7qVm1WdDcBYCLQoYLBaCnTCG4zwBLy1VvIqI=",
+  "Source": "com.da.alquileres.api",
+  "BasePath": "_content/com.da.alquileres.api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
