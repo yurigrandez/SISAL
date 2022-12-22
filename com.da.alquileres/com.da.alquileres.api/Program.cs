@@ -15,21 +15,33 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddControllers();
 
-//Configurando Automapper
+#region Configurando Automapper
+
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddTransient<IEmpresaRepository, EmpresaRepository>();
-builder.Services.AddTransient<IEmpresaServices, EmpresaServices>();
+#endregion 
 
-var app = builder.Build();
+#region Cadena de Conexion
 
-//
 var connectionString = builder.Configuration.GetConnectionString("dbSISAL");
 
 builder.Services.AddDbContext<AlquileresDbContext>(
         options => options.UseSqlServer(connectionString)
     );
+
+#endregion
+
+#region Transient
+
+builder.Services.AddTransient<IEmpresaRepository, EmpresaRepository>();
+builder.Services.AddTransient<IEmpresaServices, EmpresaServices>();
+
+#endregion
+
+var app = builder.Build();
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
