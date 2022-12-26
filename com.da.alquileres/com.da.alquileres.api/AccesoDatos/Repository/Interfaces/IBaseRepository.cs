@@ -11,7 +11,7 @@ namespace com.da.alquileres.accesodatos.Interfaces
         Task<ICollection<T>> listarAsync();
         Task<T> buscarXId(int id);
         Task<ICollection<T>> buscarXString(string str);
-        Task<T> agregarEntidad(T entidad);
+        Task<int> agregarEntidad(T entidad);
         Task<T> actualizarEntidad(T entidad);
         Task eliminarEntidad(int Id);
         Task grabarCambios();

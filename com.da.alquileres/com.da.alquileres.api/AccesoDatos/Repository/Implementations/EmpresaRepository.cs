@@ -24,10 +24,12 @@ namespace com.da.alquileres.accesodatos.Implementations
             throw new NotImplementedException();
         }
 
-        public Task<tabEmpresa> agregarEntidad(tabEmpresa entidad)
+        public async Task<int> agregarEntidad(tabEmpresa entidad)
         {
-            throw new NotImplementedException();
-        }
+            await context.Set<tabEmpresa>().AddAsync(entidad);
+            await context.SaveChangesAsync();
+            return entidad.Id;
+         }
 
         public Task<tabEmpresa> buscarXId(int id)
         {
@@ -44,9 +46,9 @@ namespace com.da.alquileres.accesodatos.Implementations
             throw new NotImplementedException();
         }
 
-        public Task grabarCambios()
+        public async Task grabarCambios()
         {
-            throw new NotImplementedException();
+            await context.SaveChangesAsync();
         }
 
         public async Task<ICollection<tabEmpresa>> listarAsync()

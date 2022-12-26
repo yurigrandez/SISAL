@@ -1,4 +1,5 @@
-﻿using com.da.alquileres.api.Services;
+﻿using com.da.alquileres.api.Entidades.DTO;
+using com.da.alquileres.api.Services;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -39,8 +40,14 @@ namespace com.da.alquileres.api.Controllers
 
         // POST api/<EmpresaController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> Post([FromBody] EmpresaDTONuevo empresaDTONuevo)
         {
+            var resultado = await services.agregarEmpresa(empresaDTONuevo);
+
+            if( resultado.Success )
+                return Ok(resultado);
+
+            return BadRequest(resultado);
         }
 
         // PUT api/<EmpresaController>/5
