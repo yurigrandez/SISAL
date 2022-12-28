@@ -31,7 +31,6 @@ create table tabSECUENCIA
  anio				char(4),
  prefijo			char(3),
  numero				int,
- complemento		varchar(3),
  fechaCreacion		smalldatetime,
  fechaModificacion	smalldatetime,
  fechaDesactivacion	smalldatetime,
@@ -41,7 +40,7 @@ go
 print 'creando tabEMPRESA...'
 create table tabEMPRESA
 (Id					int identity(1,1) not null primary key,
- codigo				char(6) not null,
+ codigo				char(8) not null,
  nombre				varchar(100),
  direccion			varchar(250),
  ruc				varchar(11),
@@ -61,7 +60,7 @@ go
 print 'creando tbLOCAL_PRINCIPAL...'
 create table tabLOCAL_PRINCIPAL
 (Id					int identity(1,1) not null primary key,
- codigo				char(6) not null,
+ codigo				char(8) not null,
  idEmpresa			int,
  direccion			varchar(250),
  nroLocales			int,
@@ -78,7 +77,7 @@ go
 print 'creando tabTIPO_USUARIO...'
 create table tabTIPO_USUARIO
 (Id					int identity(1,1) not null primary key,
- codigo				char(3),
+ abreviatura		char(3),
  nombre				varchar(25),
  descripcion		varchar(100),
  fechaCreacion		smalldatetime,
@@ -90,7 +89,7 @@ go
 print 'creando tabTIPO_DOCUMENTO...'
 create table tabTIPO_DOCUMENTO
 (Id					int identity(1,1) not null primary key,
- codigo				char(3),
+ abreviatura		char(3),
  nombre				varchar(25),
  descripcion		varchar(100),
  fechaCreacion		smalldatetime,
@@ -102,7 +101,7 @@ go
 print 'creando tabUSUARIO...'
 create table tabUSUARIO
 (Id					int identity(1,1) not null primary key,
- codigo				char(6) not null,
+ codigo				char(8) not null,
  nombre				varchar(50),
  paterno			varchar(50),
  materno			varchar(50),
@@ -124,7 +123,7 @@ go
 print 'creando tabTIPO_COMPROBANTE...'
 create table tabTIPO_COMPROBANTE
 (Id					int identity(1,1) not null primary key,
- codigo				char(3),
+ abreviatura		char(3),
  nombre				varchar(25),
  descripcion		varchar(100),
  fechaCreacion		smalldatetime,
@@ -136,7 +135,7 @@ go
 print 'creando tabCLIENTE...'
 create table tabCLIENTE
 (Id					int identity(1,1) not null primary key,
- codigo				char(6) not null,
+ codigo				char(8) not null,
  nombre				varchar(50),
  paterno			varchar(50),
  materno			varchar(50),
@@ -157,7 +156,7 @@ go
 print 'creando tabLOCAL_ARRENDAR...'
 create table tabLOCAL_ARRENDAR
 (Id					int identity(1,1) not null primary key,
- codigo				char(6) not null,
+ codigo				char(8) not null,
  idLocalPrincipal	int,
  numeroInterior		int,
  totalM2			int,
@@ -172,7 +171,7 @@ go
 print 'creando tabESTADO...'
 create table tabESTADO
 (Id					int identity(1,1) not null primary key,
- codigo				char(6),
+ abreviatura		char(6),
  nombre				varchar(15),
  descripcion		varchar(100)
 )
@@ -188,7 +187,7 @@ print '-------------------------'
 print 'creando tabCONTRATO...'
 create table tabCONTRATO
 (Id					int identity(1,1) not null primary key,
- codigo				varchar(6),
+ codigo				varchar(8),
  idCliente			int,
  idUsuarioRegistra	int,
  idUsuarioAutoriza	int,
@@ -217,7 +216,7 @@ go
 print 'creando tabTIPO_MONEDA...'
 create table tabTIPO_MONEDA
 (Id					int identity(1,1) not null primary key,
- codigo				char(3),
+ abreviatura		char(3),
  nombre				varchar(25),
  descripcion		varchar(100),
  fechaCreacion		smalldatetime,
@@ -274,7 +273,7 @@ print '----------------------------'
 print 'creando tabTIPO_INCIDENTES...'
 create table tabTIPO_INCIDENTE
 (Id					int identity(1,1) not null primary key,
- codigo				char(3),
+ abreviatura		char(3),
  nombre				varchar(25),
  descripcion		varchar(100),
  fechaCreacion		smalldatetime,
@@ -329,7 +328,93 @@ print '----------------------------'
 
 print 'poblando tbEMPRESA...'
 insert into tabEMPRESA( codigo, nombre, direccion, ruc, telefono, movil, nombreContacto, correoContacto, tlfContacto, movilContacto )
-values ('EMP001', 'DA Soluciones e Inversiones', 'SMP', '20606416106', '555-5555', '986794436', 'Yuri Grandez Del Aguila', 'yuri.grandez@dasol-inv.com', '555-5555', '986794436')
+values ('EMP00001', 'DA Soluciones e Inversiones', 'SMP', '20606416106', '555-5555', '986794436', 'Yuri Grandez Del Aguila', 'yuri.grandez@dasol-inv.com', '555-5555', '986794436')
 go
-		
+
+print 'poblando tabSECUENCIA...'
+insert into tabSECUENCIA ( tabla, anio, prefijo, numero, fechaCreacion )
+values( 'tabEMPRESA', 2022, 'EMP', 1, GETDATE() )
+go
+
+/************************************/
+/*		Procedimientos Almacenados	*/
+/************************************/
+print '----------------------------'
+print 'Procedimientos Almacenados..'
+print '----------------------------'
+
+print 'Generador de consecutivos...'
+go
+
+create procedure upsS_obtenerSecuencia
+	@tabla varchar(50),
+	@secuencia char(8) output 
+as
+	--variables para obtener secuencia
+	declare @prefijo char(3)
+	declare @numero int
+	declare @complemento varchar(5)
+	declare @error int
+
+	--inicializando el correlativo
+	set @secuencia = '000000'
+
+	--obteniendo valores para generar el consecutivo
+	select @prefijo = prefijo, @numero = numero from tabSECUENCIA where tabla = @tabla
+
+	--validando que el numero no sobrepase el 99999
+	if( @numero > 99999 )
+		begin
+			return
+		end
+
+	--verificando que se tengan los valores minimos para crear un consecutivo
+	if ( @prefijo is not null ) and ( @numero > 0 )
+		begin
+
+			if( @numero > 9999 )
+				begin
+					set @complemento = ''
+				end
+			else if( @numero > 999 )
+				begin
+					set @complemento = '0'
+				end
+			else if( @numero > 99 )
+				begin
+					set @complemento = '00'
+				end
+			else if( @numero > 9 )
+				begin
+					set @complemento = '000'
+				end
+			else
+				begin
+					set @complemento = '0000'
+				end
+
+			print 'prefijo: ' + @prefijo + ' complemento: ' +@complemento + ' numero: ' + cast(@numero as varchar)
+			--generando consecutivo
+			set @secuencia = CONCAT(@prefijo, @complemento, @numero)
+
+			--recuperando codigo de error
+			set @error = @@ERROR
+
+			--imprimiendo correlativo generado
+			print 'consecutivo: ' + @secuencia
+
+		end
+	
+	if @error = 0
+		begin 
+
+			--actualizando el numero para el siguiente correlativo
+			update tabSECUENCIA
+			set numero = numero + 1
+			where tabla = @tabla
+
+		end
+
+go
+
 print 'Script ejecutado con exito...'
