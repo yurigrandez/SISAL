@@ -15,7 +15,7 @@ namespace com.da.alquileres.accesodatos.Implementations
     {
         private readonly AlquileresDbContext context;
 
-        public EmpresaRepository( AlquileresDbContext context)
+        public EmpresaRepository( AlquileresDbContext context )
         {
             this.context = context;
         }
@@ -27,47 +27,34 @@ namespace com.da.alquileres.accesodatos.Implementations
 
         public async Task<int> agregarEntidad(tabEmpresa entidad)
         {
-            //obteniendo el consecutivo
-            //declarando parametros sql
-            var tabla = new SqlParameter
-            {
-                ParameterName = "tabla",
-                SqlDbType = System.Data.SqlDbType.VarChar,
-                Direction = System.Data.ParameterDirection.Input,
-                Value = "tabEMPRESA"
-            };
-
-            var secuencia = new SqlParameter
-            {
-                ParameterName = "secuencia",
-                SqlDbType = System.Data.SqlDbType.Char,
-                Size = 8,
-                Direction = System.Data.ParameterDirection.Output,
-                Value = "",
-            };
-
-            //ejecutando procedimiento que obtiene correlativo
-            var rejecutarProcedimiento = context.Database.ExecuteSqlRaw("Exec upsS_obtenerSecuencia {0}, {1} output", tabla, secuencia);
-
-            //recuperando consecutivo
-            var consecutivo = (string)secuencia.Value;
-
-            //asignando consecutivo a la entidad
-            entidad.codigo = consecutivo;
 
             await context.Set<tabEmpresa>().AddAsync(entidad);
             await context.SaveChangesAsync();
             return entidad.Id;
          }
 
-        public Task<tabEmpresa> buscarXId(int id)
+        public Task<tabEmpresa?> buscarXId(int id)
         {
-            throw new NotImplementedException();
+            var empresa = context.tabEmpresa.FirstOrDefaultAsync( x => x.Id == id);
+
+            return empresa;
         }
 
-        public Task<ICollection<tabEmpresa>> buscarXString(string str)
+        public async Task<ICollection<tabEmpresa>> buscarXString(string? str)
         {
-            throw new NotImplementedException();
+            var empresas = await context.tabEmpresa.Where( x => x.nombre.Contains(str) ).ToListAsync();
+
+            return empresas;
+
+        }
+
+        public async Task desactivarEntidad(tabEmpresa empresa)
+        {
+
+            //asignando fecha de desactivacion
+            empresa.fechaDesactivacion = DateTime.Now;
+            await context.SaveChangesAsync();
+
         }
 
         public Task eliminarEntidad(int Id)

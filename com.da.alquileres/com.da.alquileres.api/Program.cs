@@ -1,6 +1,8 @@
 using com.da.alquileres.accesodatos.Implementations;
 using com.da.alquileres.accesodatos.Interfaces;
 using com.da.alquileres.api;
+using com.da.alquileres.api.AccesoDatos.Repository.Implementations;
+using com.da.alquileres.api.AccesoDatos.Repository.Interfaces;
 using com.da.alquileres.api.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,6 +38,7 @@ builder.Services.AddDbContext<AlquileresDbContext>(
 
 builder.Services.AddTransient<IEmpresaRepository, EmpresaRepository>();
 builder.Services.AddTransient<IEmpresaServices, EmpresaServices>();
+builder.Services.AddTransient<IToolsRepository, ToolsRepository>();
 
 #endregion
 

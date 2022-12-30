@@ -33,9 +33,25 @@ namespace com.da.alquileres.api.Controllers
 
         // GET api/<EmpresaController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return "value";
+            var resultado = await services.buscarXId(id);
+
+            if (resultado.Success)
+                return Ok(resultado);
+
+            return BadRequest(resultado);
+        }
+
+        [HttpGet("buscarXString")]
+        public async Task<IActionResult> buscarXString(string str)
+        {
+            var resultado = await services.buscarXString(str);
+
+            if (resultado.Success)
+                return Ok(resultado);
+
+            return BadRequest(resultado);
         }
 
         // POST api/<EmpresaController>
@@ -51,9 +67,15 @@ namespace com.da.alquileres.api.Controllers
         }
 
         // PUT api/<EmpresaController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("desactivarEntidad")]
+        public async Task<IActionResult> Put(int id)
         {
+            var resultado = await services.desactivarEntidad(id);
+
+            if (resultado.Success)
+                return Ok(resultado);
+
+            return BadRequest(resultado);
         }
 
         // DELETE api/<EmpresaController>/5
