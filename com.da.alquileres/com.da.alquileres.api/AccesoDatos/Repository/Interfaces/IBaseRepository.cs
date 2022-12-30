@@ -12,10 +12,11 @@ namespace com.da.alquileres.accesodatos.Interfaces
         Task<T?> buscarXId(int id);
         Task<ICollection<T>> buscarXString(string? str);
         Task<int> agregarEntidad(T entidad);
-        Task<T> actualizarEntidad(T entidad);
-        Task eliminarEntidad(int Id);
+        Task<int> actualizarEntidad(T entidad);
+        Task eliminarEntidad(T entidad);
         Task grabarCambios();
         Task desactivarEntidad(T entidad);
+        Task activarEntidad(T entidad);
 
     }
 }

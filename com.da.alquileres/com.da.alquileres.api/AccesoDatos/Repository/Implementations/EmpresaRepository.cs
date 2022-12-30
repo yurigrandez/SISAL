@@ -20,9 +20,18 @@ namespace com.da.alquileres.accesodatos.Implementations
             this.context = context;
         }
 
-        public Task<tabEmpresa> actualizarEntidad(tabEmpresa entidad)
+        public async Task activarEntidad(tabEmpresa entidad)
         {
-            throw new NotImplementedException();
+            entidad.fechaDesactivacion = null;
+            await context.SaveChangesAsync();
+        }
+
+        public async Task<int> actualizarEntidad(tabEmpresa entidad)
+        {
+            context.tabEmpresa.Update(entidad);
+            await context.SaveChangesAsync();
+
+            return entidad.Id;
         }
 
         public async Task<int> agregarEntidad(tabEmpresa entidad)
@@ -35,7 +44,7 @@ namespace com.da.alquileres.accesodatos.Implementations
 
         public Task<tabEmpresa?> buscarXId(int id)
         {
-            var empresa = context.tabEmpresa.FirstOrDefaultAsync( x => x.Id == id);
+            var empresa = context.tabEmpresa.AsNoTracking().FirstOrDefaultAsync( x => x.Id == id);
 
             return empresa;
         }
@@ -57,9 +66,10 @@ namespace com.da.alquileres.accesodatos.Implementations
 
         }
 
-        public Task eliminarEntidad(int Id)
+        public async Task eliminarEntidad(tabEmpresa empresa)
         {
-            throw new NotImplementedException();
+            context.tabEmpresa.Remove(empresa);
+            await context.SaveChangesAsync();
         }
 
         public async Task grabarCambios()

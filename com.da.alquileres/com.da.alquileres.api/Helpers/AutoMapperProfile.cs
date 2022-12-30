@@ -11,6 +11,7 @@ namespace com.da.alquileres.api.Helpers
         {
             CreateMap<tabEmpresa, EmpresaDTOResponse>().ReverseMap();
             CreateMap<tabEmpresa, EmpresaDTONuevo>().ReverseMap();
+            CreateMap<EmpresaDTOActualizar, tabEmpresa>();
         }
     }
 }

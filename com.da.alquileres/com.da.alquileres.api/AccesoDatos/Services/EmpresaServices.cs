@@ -20,6 +20,89 @@ namespace com.da.alquileres.api.Services
             this.mapper = mapper;
         }
 
+        public async Task<BaseResponseGeneric<string>> activarEntidad(int Id)
+        {
+            //declarando variable para mostrar resultado
+            var resultado = new BaseResponseGeneric<string>();
+
+            try
+            {
+                //buscando empresa con el Id proporcionado
+                var empresa = await repository.buscarXId(Id);
+
+                //verificando si se encontro la empresa
+                if(empresa == null)
+                {
+                    throw new Exception($"No se encontro la empresa con Id: {Id}");
+                }
+
+                //verificando que la empresa se encuentre desactivada
+                if(empresa.fechaDesactivacion == null)
+                {
+                    throw new Exception($"La empresa {empresa.nombre} se encuentra activa");
+                }
+
+                //si la empresa esta desactivada se procede a activar
+                empresa.fechaModificacion = DateTime.Now;
+                await repository.activarEntidad(empresa);
+
+                //completando valores de respuesta
+                resultado.Data = $"Empresa {empresa.nombre} activada";
+                resultado.Success = true;
+
+            }
+            catch (Exception ex)
+            {
+                //completando valores si se encuentra un error
+                resultado.Success = false;
+                resultado.ErrorMessage = ex.Message;
+            }
+
+            return resultado;
+        }
+
+        public async Task<BaseResponseGeneric<int>> actualizarEmpresa(int Id, EmpresaDTOActualizar empresaDTOActualizar)
+        {
+            //declarando variable para mostrar el resultado
+            var resultado = new BaseResponseGeneric<int>();
+
+            try
+            {
+                //buscando empresa
+                var empresa = await repository.buscarXId(Id);
+
+                //verificando que exista la empresa
+                if (empresa == null)
+                    throw new Exception($"No se encontro la empresa con Id: {Id}");
+
+                //si se encontro la empresa se mapea los valores
+                var model = mapper.Map<tabEmpresa>(empresaDTOActualizar);
+
+                //asginando Id, Codigo y fecha de creacion a la entidad a actualizar
+                model.Id = empresa.Id;
+                model.codigo = empresa.codigo;
+                model.fechaCreacion = empresa.fechaCreacion;
+
+                //asginando fecha de modificacion
+                model.fechaModificacion = DateTime.Now;
+
+                //ejecutando la actualizacion
+                resultado.Data = await repository.actualizarEntidad(model);
+
+                //completando valores de respuesta
+                resultado.Success = true;
+
+            }
+            catch (Exception ex)
+            {
+                //completando valores si se encuentra algun error
+                resultado.Success = false;
+                resultado.ErrorMessage = ex.Message;
+            }
+
+            return resultado;
+        }
+
         public async Task<BaseResponseGeneric<int>> agregarEmpresa(EmpresaDTONuevo empresaDTONuevo)
         {
             var resultado = new BaseResponseGeneric<int>();
@@ -36,6 +119,10 @@ namespace com.da.alquileres.api.Services
                     throw new Exception("Error al generar consecutivo");
                 }
 
+                //asignando fechaCreacion
+                empresa.fechaCreacion = DateTime.Now;
+
+                //grabando registro
                 resultado.Data = await repository.agregarEntidad(empresa);
 
                 resultado.Success = true;
@@ -134,17 +221,60 @@ namespace com.da.alquileres.api.Services
                 if (empresa == null)
                     throw new Exception($"No se encontro la empresa con Id: {Id}");
 
+                //verificando que la empresa se encuentre desactivada
+                if (empresa.fechaDesactivacion != null)
+                {
+                    throw new Exception($"La empresa {empresa.nombre} se encuentra desactivada");
+                }
 
-                //realizando la descativacion
+                //asignando fecha de modificacion
+                empresa.fechaModificacion = DateTime.Now;
+
+                //realizando la desactivacion
                 await repository.desactivarEntidad(empresa);
 
                 //seteando los parametros si se desactivo
+                resultado.Data = $"Empresa {empresa.nombre} desactivada";
                 resultado.Success=true;
 
             }
             catch (Exception ex)
             {
                 //configurando parametros cuando se encuentre un error
+                resultado.Success = false;
+                resultado.ErrorMessage = ex.Message;
+            }
+
+            return resultado;
+        }
+
+        public async Task<BaseResponseGeneric<string>> eliminarEntidad(int Id)
+        {
+            //declarando variable para mostrar resultado
+            var resultado = new BaseResponseGeneric<string>();
+
+            try
+            {
+                //buscando la empresa con Id proporcionado
+                var empresa = await repository.buscarXId(Id);
+
+                //verificando si existe la empresa
+                if(empresa == null)
+                {
+                    throw new Exception($"No se encontro la empresa con el Id: {Id}");
+                }
+
+                //eliminando empresa encontrada
+                await repository.eliminarEntidad(empresa);
+
+                //completando valores para devolver
+                resultado.Data = $"Empresa con Id: {Id} eliminada";
+                resultado.Success=true;
+
+            }
+            catch (Exception ex)
+            {
+                //configurando valores si existe error
                 resultado.Success = false;
                 resultado.ErrorMessage = ex.Message;
             }

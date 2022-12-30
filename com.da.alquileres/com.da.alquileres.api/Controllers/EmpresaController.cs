@@ -55,7 +55,7 @@ namespace com.da.alquileres.api.Controllers
         }
 
         // POST api/<EmpresaController>
-        [HttpPost]
+        [HttpPost("agregarEmpresa")]
         public async Task<IActionResult> Post([FromBody] EmpresaDTONuevo empresaDTONuevo)
         {
             var resultado = await services.agregarEmpresa(empresaDTONuevo);
@@ -67,7 +67,7 @@ namespace com.da.alquileres.api.Controllers
         }
 
         // PUT api/<EmpresaController>/5
-        [HttpPut("desactivarEntidad")]
+        [HttpPut("desactivarEmpresa")]
         public async Task<IActionResult> Put(int id)
         {
             var resultado = await services.desactivarEntidad(id);
@@ -78,10 +78,38 @@ namespace com.da.alquileres.api.Controllers
             return BadRequest(resultado);
         }
 
-        // DELETE api/<EmpresaController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpPut("activarEmpresa")]
+        public async Task<IActionResult> activarEntidad(int id)
         {
+            var resultado = await services.activarEntidad(id);
+
+            if (resultado.Success)
+                return Ok(resultado);
+
+            return BadRequest(resultado);
+        }
+
+        [HttpPut("actualizarEmpresa")]
+        public async Task<IActionResult> actualizarEntidad(int id, [FromBody] EmpresaDTOActualizar empresaDTOActualizar)
+        {
+            var resultado = await services.actualizarEmpresa(id, empresaDTOActualizar);
+
+            if (resultado.Success)
+                return Ok(resultado);
+
+            return BadRequest(resultado);
+        }
+
+        // DELETE api/<EmpresaController>/5
+        [HttpDelete("eliminarEmpresa")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var resultado = await services.eliminarEntidad(id);
+
+            if (resultado.Success)
+                return Ok(resultado);
+
+            return BadRequest(resultado);
         }
     }
 }
