@@ -64,8 +64,9 @@ create table tabLOCAL_PRINCIPAL
  idEmpresa			int,
  direccion			varchar(250),
  nroLocales			int,
- totalM2			int,
- dimenciones		varchar(150),
+ totalM2			decimal(18,2),
+ dimensiones		varchar(150),
+ nroPisos			int,
  imgFrontis			varbinary(max),
  fechaCreacion		smalldatetime,
  fechaModificacion	smalldatetime,
@@ -317,23 +318,6 @@ create table tabEVENTOS
  mensaje			varchar(max)
  constraint fk_Evento_Usuario foreign key(idUsuario) references tabUSUARIO(Id)
 )
-go
-
-/************************************/
-/*			Poblando tablas 		*/
-/************************************/
-print '----------------------------'
-print 'Poblando tablas...'
-print '----------------------------'
-
-print 'poblando tabSECUENCIA...'
-insert into tabSECUENCIA ( tabla, anio, prefijo, numero, fechaCreacion )
-values( 'tabEMPRESA', 2022, 'EMP', 2, GETDATE() )
-go
-
-print 'poblando tbEMPRESA...'
-insert into tabEMPRESA( codigo, nombre, direccion, ruc, telefono, movil, nombreContacto, correoContacto, tlfContacto, movilContacto )
-values ('EMP00001', 'DA Soluciones e Inversiones', 'SMP', '20606416106', '555-5555', '986794436', 'Yuri Grandez Del Aguila', 'yuri.grandez@dasol-inv.com', '555-5555', '986794436')
 go
 
 print 'Script ejecutado con exito...'

@@ -12,5 +12,6 @@ namespace com.da.alquileres.api
 
         public DbSet<tabEmpresa> tabEmpresa{ get; set; } = default!;
         public DbSet<tabSecuencia> tabSecuencia { get; set; } = default!;
+        public DbSet<tabLocal_Principal> tabLocal_Principal { get; set; } = default!;
     }
 }

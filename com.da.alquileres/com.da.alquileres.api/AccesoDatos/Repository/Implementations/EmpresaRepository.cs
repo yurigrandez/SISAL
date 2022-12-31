@@ -23,6 +23,7 @@ namespace com.da.alquileres.accesodatos.Implementations
         public async Task activarEntidad(tabEmpresa entidad)
         {
             entidad.fechaDesactivacion = null;
+            context.tabEmpresa.Update(entidad);
             await context.SaveChangesAsync();
         }
 
@@ -62,6 +63,7 @@ namespace com.da.alquileres.accesodatos.Implementations
 
             //asignando fecha de desactivacion
             empresa.fechaDesactivacion = DateTime.Now;
+            context.tabEmpresa.Update(empresa);
             await context.SaveChangesAsync();
 
         }

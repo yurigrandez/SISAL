@@ -12,5 +12,6 @@
         public string? tlfContacto { get; set; }
         public string? movilContacto { get; set; }
         public byte[]? imgEmpresa { get; set; }
+
     }
 }

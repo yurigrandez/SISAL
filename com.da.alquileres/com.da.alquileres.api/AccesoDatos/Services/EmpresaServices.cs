@@ -43,7 +43,6 @@ namespace com.da.alquileres.api.Services
                 }
 
                 //si la empresa esta desactivada se procede a activar
-                empresa.fechaModificacion = DateTime.Now;
                 await repository.activarEntidad(empresa);
 
                 //completando valores de respuesta
@@ -83,9 +82,6 @@ namespace com.da.alquileres.api.Services
                 model.codigo = empresa.codigo;
                 model.fechaCreacion = empresa.fechaCreacion;
 
-                //asginando fecha de modificacion
-                model.fechaModificacion = DateTime.Now;
-
                 //ejecutando la actualizacion
                 resultado.Data = await repository.actualizarEntidad(model);
 
@@ -118,9 +114,6 @@ namespace com.da.alquileres.api.Services
                 {
                     throw new Exception("Error al generar consecutivo");
                 }
-
-                //asignando fechaCreacion
-                empresa.fechaCreacion = DateTime.Now;
 
                 //grabando registro
                 resultado.Data = await repository.agregarEntidad(empresa);
@@ -226,9 +219,6 @@ namespace com.da.alquileres.api.Services
                 {
                     throw new Exception($"La empresa {empresa.nombre} se encuentra desactivada");
                 }
-
-                //asignando fecha de modificacion
-                empresa.fechaModificacion = DateTime.Now;
 
                 //realizando la desactivacion
                 await repository.desactivarEntidad(empresa);

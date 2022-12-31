@@ -2,6 +2,12 @@
 /*		Procedimientos Almacenados	*/
 /************************************/
 print '----------------------------'
+print 'Activando dbSISAL...........'
+print '----------------------------'
+use dbSISAL
+go
+
+print '----------------------------'
 print 'Procedimientos Almacenados..'
 print '----------------------------'
 
