@@ -1,4 +1,6 @@
-﻿namespace com.da.alquileres.api.Entidades.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace com.da.alquileres.api.Entidades.Models
 {
     public class tabLocal_Principal : tabEntidadBase
     {
@@ -9,6 +11,8 @@
         public string? dimensiones { get; set; }
         public int nroPisos { get; set; }
         public byte[]? imgFrontis { get; set; }
+        public int idEmpresa { get; set; }
+        [ForeignKey("idEmpresa")]
         public tabEmpresa? empresa { get; set; }
 
     }
