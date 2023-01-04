@@ -54,7 +54,9 @@ namespace com.da.alquileres.api.AccesoDatos.Repository.Implementations
 
         public async Task<ICollection<tabLocal_Principal>> listarAsync()
         {
-            var locales = await context.tabLocal_Principal.ToListAsync();
+            var locales = await context.tabLocal_Principal.
+                                        Include(x => x.empresa).
+                                        ToListAsync();
 
             return locales;
         }

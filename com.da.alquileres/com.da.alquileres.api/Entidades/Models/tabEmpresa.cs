@@ -19,7 +19,8 @@ namespace com.da.alquileres.api.Entidades.Models
         public string? correoContacto { get; set; } 
         public string? tlfContacto { get; set; } 
         public string? movilContacto { get; set; }
-        public byte[]? imgEmpresa { get; set; } 
+        public byte[]? imgEmpresa { get; set; }
+        public ICollection<tabLocal_Principal>? localPrincipal { get; set; }
 
     }
 }

@@ -12,7 +12,9 @@ namespace com.da.alquileres.api.Helpers
             CreateMap<tabEmpresa, EmpresaDTOResponse>().ReverseMap();
             CreateMap<tabEmpresa, EmpresaDTONuevo>().ReverseMap();
             CreateMap<EmpresaDTOActualizar, tabEmpresa>();
-            CreateMap<tabLocal_Principal, LocalPrincipalDTOResponse>().ReverseMap();    
+            CreateMap<tabLocal_Principal, LocalPrincipalDTOResponse>().
+                ForMember(destino => destino.idEmpresa, origen => origen.MapFrom(x => x.empresa.Id)).
+                ForMember(destino => destino.nombreEmpresa, origen => origen.MapFrom(x => x.empresa.nombre));
             
         }
     }
