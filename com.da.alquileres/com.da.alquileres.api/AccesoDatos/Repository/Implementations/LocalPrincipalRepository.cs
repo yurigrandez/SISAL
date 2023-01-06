@@ -12,39 +12,74 @@ namespace com.da.alquileres.api.AccesoDatos.Repository.Implementations
         {
             this.context = context;
         }
-        public Task activarEntidad(tabLocal_Principal entidad)
+        public async Task activarEntidad(tabLocal_Principal entidad)
         {
-            throw new NotImplementedException();
+            //eliminando fecha de desactivación
+            entidad.fechaDesactivacion = null;
+
+            //actualizando context
+            context.tabLocal_Principal.Update(entidad);
+
+            //guardando cambios
+            await context.SaveChangesAsync();
         }
 
-        public Task<int> actualizarEntidad(tabLocal_Principal entidad)
+        public async Task<int> actualizarEntidad(tabLocal_Principal entidad)
         {
-            throw new NotImplementedException();
+            context.tabLocal_Principal.Update(entidad);
+            await context.SaveChangesAsync();
+
+            return entidad.Id;
         }
 
-        public Task<int> agregarEntidad(tabLocal_Principal entidad)
+        public async Task<int> agregarEntidad(tabLocal_Principal entidad)
         {
-            throw new NotImplementedException();
+            context.Set<tabLocal_Principal>().Add(entidad);
+            await context.SaveChangesAsync();
+
+            return entidad.Id;
         }
 
-        public Task<tabLocal_Principal?> buscarXId(int id)
+        public async Task<tabLocal_Principal?> buscarXId(int id)
         {
-            throw new NotImplementedException();
+            var localPrincipal = await context.tabLocal_Principal
+                                                .AsNoTracking()
+                                               .Include(x => x.empresa)
+                                               .FirstOrDefaultAsync(x => x.Id == id);
+
+            return localPrincipal;
         }
 
-        public Task<ICollection<tabLocal_Principal>> buscarXString(string? str)
+        public async Task<ICollection<tabLocal_Principal>> buscarXString(string? str)
         {
-            throw new NotImplementedException();
+            var busqueda = await context.tabLocal_Principal.
+                                    AsNoTracking().
+                                    Include(x => x.empresa).
+                                    Where(x => x.direccion.Contains(str)).
+                                    ToListAsync();
+
+            return busqueda;
         }
 
-        public Task desactivarEntidad(tabLocal_Principal entidad)
+        public async Task desactivarEntidad(tabLocal_Principal entidad)
         {
-            throw new NotImplementedException();
+            //asignando fecha de desactivación
+            entidad.fechaDesactivacion = DateTime.Now;
+
+            //actualizando context
+            context.tabLocal_Principal.Update(entidad);
+
+            //grabando cambios
+            await context.SaveChangesAsync();
         }
 
-        public Task eliminarEntidad(tabLocal_Principal entidad)
+        public async Task eliminarEntidad(tabLocal_Principal entidad)
         {
-            throw new NotImplementedException();
+            //removiendo del contexto
+            context.tabLocal_Principal.Remove(entidad);
+
+            //grabando cambios
+            await context.SaveChangesAsync();
         }
 
         public Task grabarCambios()

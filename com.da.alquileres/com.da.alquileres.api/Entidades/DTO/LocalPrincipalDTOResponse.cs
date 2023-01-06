@@ -9,5 +9,7 @@
         public string? direccion { get; set; }
         public int nroLocales { get; set; }
         public decimal totalM2 { get; set; }
+        public string? fechaCreacion { get; set; }
+        public string? fechaDesactivacion { get; set; }
     }
 }

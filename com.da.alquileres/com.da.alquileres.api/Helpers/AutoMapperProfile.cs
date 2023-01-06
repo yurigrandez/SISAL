@@ -15,6 +15,8 @@ namespace com.da.alquileres.api.Helpers
             CreateMap<tabLocal_Principal, LocalPrincipalDTOResponse>().
                 ForMember(destino => destino.idEmpresa, origen => origen.MapFrom(x => x.empresa.Id)).
                 ForMember(destino => destino.nombreEmpresa, origen => origen.MapFrom(x => x.empresa.nombre));
+            CreateMap<LocalPrincipalDTONuevo, tabLocal_Principal>();
+            CreateMap<LocalPrincipalDTOActualizar, tabLocal_Principal>();
             
         }
     }
