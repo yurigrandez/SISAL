@@ -82,6 +82,26 @@ namespace com.da.alquileres.api.Services
                 model.codigo = empresa.codigo;
                 model.fechaCreacion = empresa.fechaCreacion;
 
+                //verificando si se ha seleccionado una ruta de imagen
+                if (!string.IsNullOrEmpty(empresaDTOActualizar.rutaImagen))
+                {
+                    
+                    //colocando en memoria la imagen de la ruta seleccionada
+                    FileStream fs = new FileStream(empresaDTOActualizar.rutaImagen, FileMode.OpenOrCreate, FileAccess.Read);
+
+                    //declarando variable de arreglo de byte
+                    byte[] bytes = new byte[fs.Length];
+
+                    //leyendo la imagen en memoria para pasarlo al arreglo de bytes
+                    fs.Read(bytes, 0, (int)fs.Length);
+
+                    //cerrando filestream
+                    fs.Close();
+
+                    //asignando la imagen convertido en arreglo de bytes al model a actualizar
+                    model.imgEmpresa = bytes;
+                }
+
                 //ejecutando la actualizacion
                 resultado.Data = await repository.actualizarEntidad(model);
 
