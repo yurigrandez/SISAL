@@ -92,6 +92,7 @@ namespace com.da.alquileres.api.Controllers
         [HttpPut("actualizarEmpresa")]
         public async Task<IActionResult> actualizarEntidad(int id, [FromBody] EmpresaDTOActualizar empresaDTOActualizar)
         {
+
             var resultado = await services.actualizarEmpresa(id, empresaDTOActualizar);
 
             if (resultado.Success)

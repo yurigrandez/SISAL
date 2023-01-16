@@ -7,6 +7,7 @@
         public string? nombre { get; set; }
         public string? ruc { get; set; }
         public byte[]? imgEmpresa { get; set; }
+        public string? extensionImg { get; set; }
         public string? fechaCreacion { get; set; }
         public string? fechaModificacion { get; set; }
         public string? fechaDesactivacion { get; set; }
