@@ -82,6 +82,18 @@ namespace com.da.alquileres.api.Services
                 model.codigo = empresa.codigo;
                 model.fechaCreacion = empresa.fechaCreacion;
 
+                //verificando si se selecciono alguna imagen
+                if(!string.IsNullOrEmpty(empresaDTOActualizar.rutaImagen))
+                {
+                    model.imgEmpresa =await tools.subirArchivo(empresaDTOActualizar.rutaImagen!);
+                    model.extensionImg = empresaDTOActualizar.extensionImg;
+                }
+                else
+                {
+                    model.imgEmpresa = empresa.imgEmpresa;
+                    model.extensionImg = empresaDTOActualizar.extensionImg;
+                }
+                
                 //ejecutando la actualizacion
                 resultado.Data = await repository.actualizarEntidad(model);
 

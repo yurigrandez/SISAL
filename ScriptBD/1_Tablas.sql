@@ -53,7 +53,8 @@ create table tabEMPRESA
  fechaCreacion		smalldatetime default getdate(),
  fechaModificacion	smalldatetime,
  fechaDesactivacion	smalldatetime,
- imgEmpresa			varbinary(max)
+ imgEmpresa			varbinary(max),
+ extensionImg		varchar(5)
 )
 go
 
@@ -204,7 +205,8 @@ create table tabCONTRATO
  montoMantenimiento	decimal(18,2),
  montoOtros			decimal(18,2),
  Observaciones		varchar(max),
- contratoPDF		varbinary(max),
+ contrato			varbinary(max),
+ extensionContrato	varchar(5),
  idEstado			int,
  fechaCreacion		smalldatetime default getdate(),
  fechaModificacion	smalldatetime,

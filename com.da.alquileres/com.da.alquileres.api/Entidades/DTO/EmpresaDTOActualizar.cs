@@ -11,7 +11,8 @@
         public string? correoContacto { get; set; }
         public string? tlfContacto { get; set; }
         public string? movilContacto { get; set; }
-        public byte[]? imgEmpresa { get; set; }
+        public string? rutaImagen { get; set; }
+        public string? extensionImg { get; set; }
 
     }
 }
