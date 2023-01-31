@@ -31,7 +31,7 @@ create table tabSECUENCIA
  anio				char(4),
  prefijo			char(3),
  numero				int,
- fechaCreacion		smalldatetime,
+ fechaCreacion		smalldatetime default getdate(),
  fechaModificacion	smalldatetime,
  fechaDesactivacion	smalldatetime,
 )
@@ -50,7 +50,7 @@ create table tabEMPRESA
  correoContacto		varchar(50),
  tlfContacto		varchar(15),
  movilContacto		varchar(15),
- fechaCreacion		smalldatetime,
+ fechaCreacion		smalldatetime default getdate(),
  fechaModificacion	smalldatetime,
  fechaDesactivacion	smalldatetime,
  imgEmpresa			varbinary(max)
@@ -68,7 +68,7 @@ create table tabLOCAL_PRINCIPAL
  dimensiones		varchar(150),
  nroPisos			int,
  imgFrontis			varbinary(max),
- fechaCreacion		smalldatetime,
+ fechaCreacion		smalldatetime default getdate(),
  fechaModificacion	smalldatetime,
  fechaDesactivacion	smalldatetime,
  constraint fk_LocalPrincipal_Empresa foreign key(idEmpresa) references tabEMPRESA(Id)
@@ -81,7 +81,7 @@ create table tabTIPO_USUARIO
  abreviatura		char(3),
  nombre				varchar(25),
  descripcion		varchar(100),
- fechaCreacion		smalldatetime,
+ fechaCreacion		smalldatetime default getdate(),
  fechaModificacion	smalldatetime,
  fechaDesactivacion	smalldatetime
 )
@@ -93,7 +93,7 @@ create table tabTIPO_DOCUMENTO
  abreviatura		char(3),
  nombre				varchar(25),
  descripcion		varchar(100),
- fechaCreacion		smalldatetime,
+ fechaCreacion		smalldatetime default getdate(),
  fechaModificacion	smalldatetime,
  fechaDesactivacion	smalldatetime
 )
@@ -113,7 +113,7 @@ create table tabUSUARIO
  numeroDocumento	varchar(25),
  direccion			varchar(250),
  telefono			varchar(25),
- fechaCreacion		smalldatetime,
+ fechaCreacion		smalldatetime default getdate(),
  fechaModificacion	smalldatetime,
  fechaDesactivacion	smalldatetime,
  constraint fk_Usuario_TipoUsuario foreign key(idTipoUsuario) references tabTIPO_USUARIO(Id),
@@ -127,7 +127,7 @@ create table tabTIPO_COMPROBANTE
  abreviatura		char(3),
  nombre				varchar(25),
  descripcion		varchar(100),
- fechaCreacion		smalldatetime,
+ fechaCreacion		smalldatetime default getdate(),
  fechaModificacion	smalldatetime,
  fechaDesactivacion	smalldatetime
 )
@@ -146,7 +146,7 @@ create table tabCLIENTE
  direccion			varchar(250),
  telefono			varchar(25),
  IdTipoComprobante	int,
- fechaCreacion		smalldatetime,
+ fechaCreacion		smalldatetime default getdate(),
  fechaModificacion	smalldatetime,
  fechaDesactivacion	smalldatetime,
  constraint fk_Cliente_TipoDocumento foreign key(IdTipoDocumento) references tabTIPO_DOCUMENTO(Id),
@@ -162,7 +162,7 @@ create table tabLOCAL_ARRENDAR
  numeroInterior		int,
  totalM2			int,
  dimenciones		varchar(150),
- fechaCreacion		smalldatetime,
+ fechaCreacion		smalldatetime default getdate(),
  fechaModificacion	smalldatetime,
  fechaDesactivacion	smalldatetime,
  constraint fk_LocalArrendar_LocalPrincipal foreign key(idLocalPrincipal) references tabLOCAL_PRINCIPAL(Id)
@@ -174,7 +174,10 @@ create table tabESTADO
 (Id					int identity(1,1) not null primary key,
  abreviatura		char(6),
  nombre				varchar(15),
- descripcion		varchar(100)
+ descripcion		varchar(100),
+ fechaCreacion		smalldatetime default getdate(),
+ fechaModificacion	smalldatetime,
+ fechaDesactivacion	smalldatetime,
 )
 go
 
@@ -203,7 +206,7 @@ create table tabCONTRATO
  Observaciones		varchar(max),
  contratoPDF		varbinary(max),
  idEstado			int,
- fechaCreacion		smalldatetime,
+ fechaCreacion		smalldatetime default getdate(),
  fechaModificacion	smalldatetime,
  fechaDesactivacion	smalldatetime,
  constraint fk_Contrato_Cliente foreign key(idCliente) references tabCLIENTE(Id),
@@ -220,7 +223,7 @@ create table tabTIPO_MONEDA
  abreviatura		char(3),
  nombre				varchar(25),
  descripcion		varchar(100),
- fechaCreacion		smalldatetime,
+ fechaCreacion		smalldatetime default getdate(),
  fechaModificacion	smalldatetime,
  fechaDesactivacion	smalldatetime
 )
@@ -240,7 +243,7 @@ create table tabCOMPROBANTE
  idTipoMoneda		int,
  observacion		varchar(max),
  importeTotal		decimal(18,2),
- fechaCreacion		smalldatetime,
+ fechaCreacion		smalldatetime default getdate(),
  fechaModificacion	smalldatetime,
  fechaDesactivacion	smalldatetime
  constraint fk_Comprobante_Empresa foreign key(idEmpresa) references tabEMPRESA(Id),
@@ -260,6 +263,9 @@ create table tabCOMPROBANTE_DETALLE
  concepto			varchar(250),
  precioUnitario		decimal(18,2),
  subTotal			decimal(18,2),
+ fechaCreacion		smalldatetime default getdate(),
+ fechaModificacion	smalldatetime,
+ fechaDesactivacion	smalldatetime
  constraint fk_ComDetalle_Comprobante foreign key(idComprobante) references tabCOMPROBANTE(Id)
 )
 go
@@ -277,7 +283,7 @@ create table tabTIPO_INCIDENTE
  abreviatura		char(3),
  nombre				varchar(25),
  descripcion		varchar(100),
- fechaCreacion		smalldatetime,
+ fechaCreacion		smalldatetime default getdate(),
  fechaModificacion	smalldatetime,
  fechaDesactivacion	smalldatetime 
 )
@@ -290,7 +296,7 @@ create table tabINCIDENTE
  idCliente			int,
  idTipoIncidente	int,
  descripcion		varchar(max),
- fechaCreacion		smalldatetime,
+ fechaCreacion		smalldatetime default getdate(),
  fechaModificacion	smalldatetime,
  fechaDesactivacion	smalldatetime,
  constraint fk_Incidente_UsuRegistra foreign key(idUsuarioRegistra) references tabUSUARIO(Id),
@@ -314,7 +320,9 @@ create table tabEVENTOS
  Entidad			char(6),
  idUsuario			int,
  codigoUsuario		char(6),
- fechaCreacion		smalldatetime,
+ fechaCreacion		smalldatetime default getdate(),
+ fechaModificacion	smalldatetime,
+ fechaDesactivacion	smalldatetime,
  mensaje			varchar(max)
  constraint fk_Evento_Usuario foreign key(idUsuario) references tabUSUARIO(Id)
 )
